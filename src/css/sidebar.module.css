@@ -1,0 +1,24 @@
+.sidebar{
+    position: fixed;
+    padding-top: 3%;
+    background: rgb(44, 44, 44);
+    height: 100%;
+}
+.sidebar li{
+    color: white;
+    padding: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70px;
+    font-size: 12px;
+}
+.sidebar li svg{
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+}
+.sidebar li svg:hover{
+    color: #ff1c1c;
+}

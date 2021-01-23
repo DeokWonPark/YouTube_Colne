@@ -1,0 +1,12 @@
+section{
+    padding-top: 3%;
+    background: rgb(24, 24, 24);
+}
+section .videos{
+    margin-left: 60px;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(4,21%);
+    row-gap: 20px;
+    column-gap: 30px;
+}

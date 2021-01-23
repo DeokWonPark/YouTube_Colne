@@ -1,0 +1,8 @@
+.inner{
+  margin: auto;
+  height: 100vh;
+  background: rgb(24, 24, 24);
+}
+.main{
+  display: flex;
+}

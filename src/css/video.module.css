@@ -1,0 +1,46 @@
+.video{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 3px;
+    margin: 3px;
+    align-items: left;
+    cursor: pointer;
+}
+.video:hover{
+    opacity: 0.7;
+}
+.video .video_data{
+    padding: 10px;
+    display: flex;
+}
+.video .video_data .channelBtn{
+    width: 40px;
+    height: 40px;
+    border: none; 
+    background: black;
+    border-radius: 50%;
+    margin-right: 8px;
+    padding: 0;
+    cursor: pointer;
+}
+.video .video_data .channelBtn img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.video img[alt="thumbnail"]{
+    width: 100%;
+    height: auto;
+}
+.video span{
+    color: rgb(230, 230, 230);
+}
+.video span .title{
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+.video span .channelTitle{
+    font-size: 14px;
+    color: rgb(141, 141, 139);
+}
