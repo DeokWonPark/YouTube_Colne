@@ -54,6 +54,29 @@ class App extends Component {
       })
   }
 
+  SearchVideoItem=(text)=>{
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=${text}&type=video&regionCode=kr&key=${this.APIKEY}`, requestOptions)
+      .then(response => response.json())
+      .then((result) => {
+        const promises=[];
+        result.items.map((item)=>{
+          promises.push(this.LoadChannelItems(item.snippet.channelId,item));
+        });
+
+        Promise.all(promises).then((values)=>{
+          const videos=[...values];
+          this.setState({videos});
+          console.log(values);
+        });
+      })
+      .catch(error => console.log('error', error));
+  }
+
   componentDidMount(){
     this.LoadVideoItems();
   }
@@ -94,9 +117,16 @@ class App extends Component {
     // this.viewRef.current.style.display="none";
   }
 
+  handleSearch=(text)=>{
+    this.SearchVideoItem(text);
+  }
+
   render() {
     return <div className="inner">
-      <Header onMainView={this.handleMainView}></Header>
+      <Header 
+      onMainView={this.handleMainView}
+      onSearch={this.handleSearch}
+      ></Header>
       <section className="main" ref={this.dftRef}>
         <Sidebar></Sidebar>
         <Videos videos={this.state.videos} 

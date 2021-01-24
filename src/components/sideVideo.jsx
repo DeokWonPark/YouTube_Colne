@@ -7,13 +7,22 @@ class SideVideo extends Component {
         return <div className={styles.Side}>
         <button className={styles.video_refresh}>추천 영상 새로고침</button>
         <ul className={styles.side_videos}>
-            {this.props.videos.map((item)=><Video
-                        info={item}
-                        key={item.id}
-                        onView={this.props.onView}
-                        view={true}
-                        >
-                        </Video>
+            {this.props.videos.map((item)=>{
+                let id;
+                if(item.id instanceof Object){
+                    id=item.id.videoId;
+                }
+                else{
+                    id=item.id;
+                }
+                return <Video
+                info={item}
+                key={id}
+                onView={this.props.onView}
+                view={true}
+                >
+                </Video>
+            }
             )}
         </ul>
         </div>
