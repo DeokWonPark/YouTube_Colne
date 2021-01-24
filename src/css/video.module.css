@@ -29,6 +29,12 @@
     height: 40px;
     border-radius: 50%;
 }
+.video .video_data .title{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
 .video img[alt="thumbnail"]{
     width: 100%;
     height: auto;
@@ -43,4 +49,26 @@
 .video span .channelTitle{
     font-size: 14px;
     color: rgb(141, 141, 139);
+}
+
+
+/* Side Video */
+.video.side{
+    flex-direction: row;
+}
+.video.side img[alt="thumbnail"]{
+    width: 50%;
+    height: auto;
+}
+.video.side .video_data .channelBtn{
+    display: none;
+}
+.video.side .video_data{
+    padding-top: 0;
+}
+.video.side .video_data .title{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }

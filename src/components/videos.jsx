@@ -11,6 +11,7 @@ class Videos extends Component {
                             info={item}
                             key={item.id}
                             onView={this.props.onView}
+                            view={false}
                             >
                             </Video>
                 )}

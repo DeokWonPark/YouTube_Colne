@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import styles from '../css/video.module.css';
 
 class Video extends Component {
@@ -11,7 +12,7 @@ class Video extends Component {
         const channelTitle=info.channelTitle;
         const channelUrl=info.channels;
 
-        return <li className={styles.video} onClick={this.handleVideoView}>
+        return <li className={classNames(styles.video,(this.props.view ? styles.side : ''))} onClick={this.handleVideoView}>
             <img src={img_url} alt="thumbnail"/>
             <div className={styles.video_data}>
                 <button className={styles.channelBtn}><img src={channelUrl} alt="channel"/></button>

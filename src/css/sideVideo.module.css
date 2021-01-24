@@ -1,0 +1,14 @@
+.Side{
+    padding-left: 50px;
+}
+.video_refresh{
+    width: 100%;
+    background: rgb(44, 44, 44);
+    color: white;
+    border: none;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.video_refresh:hover{
+    opacity: 0.7;
+}

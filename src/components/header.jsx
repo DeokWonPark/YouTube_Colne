@@ -3,10 +3,11 @@ import classNames from 'classnames';
 import styles from '../css/header.module.css';
 
 class Header extends PureComponent {
+    handleMainView=()=>{this.props.onMainView()}
     render() {
         return (
             <header>
-                <div className={styles.logo}>
+                <div className={styles.logo} onClick={this.handleMainView}>
                     <button className={classNames(styles.Btn, styles.logoBtn)}><img src="../../images/logo.png" alt="logo"/></button>
                     <span className={styles.logo_name}>Youtube</span>
                 </div>

@@ -1,8 +1,25 @@
+#root{
+  height: 100%;
+}
 .inner{
   margin: auto;
-  height: 100vh;
+  height: 100%;
   background: rgb(24, 24, 24);
 }
 .main{
   display: flex;
+}
+.videoView{
+  display: none;
+  padding: 100px 100px;
+  height: 100%;
+  box-sizing: border-box;
+  /* justify-content: space-between; */
+  overflow: auto;
+}
+.VideoInfo{
+  width: 70%;
+}
+.SideVideo{
+  width: 25%;
 }

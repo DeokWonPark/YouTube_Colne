@@ -17,6 +17,7 @@ header .logo{
     display: flex;
     align-items: center;
     margin-left: 80px;
+    cursor: pointer;
     /* margin-right: 15px; */
 }
 header .logo_name{
