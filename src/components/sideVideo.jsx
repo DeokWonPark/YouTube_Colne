@@ -5,7 +5,7 @@ import styles from '../css/sideVideo.module.css';
 class SideVideo extends Component {
     render() {
         return <div className={styles.Side}>
-        <button className={styles.video_refresh}>추천 영상 새로고침</button>
+        <button className={styles.video_refresh}>추천 영상 목록</button>
         <ul className={styles.side_videos}>
             {this.props.videos.map((item)=>{
                 let id;

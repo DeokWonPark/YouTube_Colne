@@ -13,6 +13,7 @@ class View extends Component {
         <article className="SideVideo">
             <SideVideo
             videos={this.props.videos}
+            onView={this.props.onView}
             ></SideVideo>
         </article>
       </>

@@ -13,12 +13,28 @@
     align-items: center;
     width: 70px;
     font-size: 12px;
+    cursor: pointer;
 }
 .sidebar li svg{
-    cursor: pointer;
     font-size: 20px;
     padding: 10px;
 }
 .sidebar li svg:hover{
     color: #ff1c1c;
+}
+.sidebar .categoryTitle{
+    font-weight: 600;
+    margin-top: 50px;
+    /* color: #ff1c1c; */
+}
+
+.sidebar .category img{
+    width: 30px;
+    height: 30px;
+    color: white;
+    padding-bottom: 7px;
+}
+.sidebar .category img:hover{
+    color: wheat;
+    opacity: 0.5;
 }

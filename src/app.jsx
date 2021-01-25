@@ -54,6 +54,10 @@ class App extends Component {
   }
 
   SearchVideoItem=(text)=>{
+    
+    if(this.dftRef.current.style.display==="none"){
+      this.handleMainView();
+    }
     var requestOptions = {
       method: 'GET',
       redirect: 'follow'
@@ -70,7 +74,6 @@ class App extends Component {
         Promise.all(promises).then((values)=>{
           const videos=[...values];
           this.setState({videos});
-          console.log(values);
         });
       })
       .catch(error => console.log('error', error));
@@ -91,15 +94,23 @@ class App extends Component {
     const video_info={...video};
     await this.setState({video_info});
 
-    this.setState({View:<View videos={this.state.videos} video_info={this.state.video_info}></View>});
+    this.setState({View:<View videos={this.state.videos} video_info={this.state.video_info} onView={this.handleOtherVideoView}></View>});
 
     let player;
+
+    let id;
+    if(video.id instanceof Object){
+        id=video.id.videoId;
+    }
+    else{
+        id=video.id;
+    }
 
     if(window.YT!=null){
       player = new window.YT.Player('ytplayer', {
         height: '100%',
         width: '100%',
-        videoId: `${video.id}`,
+        videoId: `${id}`,
         playerVars:{
           autoplay:1,
         }
@@ -117,13 +128,42 @@ class App extends Component {
         player = new window.YT.Player('ytplayer', {
           height: '100%',
           width: '100%',
-          videoId: `${video.id}`,
+          videoId: `${id}`,
           playerVars:{
             autoplay:1,
           }
         });
       }
     }
+  }
+
+  handleOtherVideoView=async (video)=>{
+
+    const video_info={...video};
+    await this.setState({video_info});
+
+    this.setState({View:<></>});
+    this.setState({View:<View videos={this.state.videos} video_info={this.state.video_info} onView={this.handleOtherVideoView}></View>});
+    let player;
+
+    let id;
+    if(video.id instanceof Object){
+        id=video.id.videoId;
+    }
+    else{
+        id=video.id;
+    }
+
+    
+    player = new window.YT.Player('ytplayer', {
+      height: '100%',
+      width: '100%',
+      videoId: `${id}`,
+      playerVars:{
+        autoplay:1,
+      }
+    });
+    
   }
           
   handleMainView=()=>{
@@ -143,7 +183,7 @@ class App extends Component {
       onSearch={this.handleSearch}                                                                                                   
       ></Header>                                         
       <section className="main" ref={this.dftRef}>
-        <Sidebar></Sidebar>
+        <Sidebar onCategory={this.handleSearch}></Sidebar>
         <Videos videos={this.state.videos}      
                 onView={this.handleVideoView}>
         </Videos>
