@@ -3,9 +3,7 @@ import './app.css';
 import Header from './components/header';
 import Videos from './components/videos';
 import Sidebar from './components/sidebar'
-import VideoView from './components/videoView';
-import VideoInfo from './components/videoInfo';
-import SideVideo from './components/sideVideo';
+import View from './components/view';
 
 class App extends Component {
   state={
@@ -13,6 +11,7 @@ class App extends Component {
 
     ],
     video_info:{},
+    View:<></>,
   }
 
   APIKEY=process.env.REACT_APP_API_KEY;
@@ -85,64 +84,72 @@ class App extends Component {
   dftRef=React.createRef();
   viewRef=React.createRef();
 
-  handleVideoView=(video)=>{
+  handleVideoView=async (video)=>{
     this.dftRef.current.style.display="none";
     this.viewRef.current.style.display="flex";
 
     const video_info={...video};
-    this.setState({video_info});
+    await this.setState({video_info});
 
-    const script=document.createElement('script');
-    script.src="https://www.youtube.com/player_api";
-
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(script, firstScriptTag);
+    this.setState({View:<View videos={this.state.videos} video_info={this.state.video_info}></View>});
 
     let player;
-      window.onYouTubePlayerAPIReady=()=>{
-          console.log(window.YT);
-          player = new window.YT.Player('ytplayer', {
-            height: '100%',
-            width: '100%',
-            videoId: `${video.id}`,
-            playerVars:{
-              autoplay:1,
-            }
-          });
-      }
-  }
 
-  handleMainView=()=>{
-    // this.dftRef.current.style.display="flex";
-    // this.viewRef.current.style.display="none";
+    if(window.YT!=null){
+      player = new window.YT.Player('ytplayer', {
+        height: '100%',
+        width: '100%',
+        videoId: `${video.id}`,
+        playerVars:{
+          autoplay:1,
+        }
+      });
+    }
+    else{
+      const script=document.createElement('script');
+      script.src="https://www.youtube.com/player_api";
+      script.classList.add("YouTube_api");
+
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(script, firstScriptTag);
+
+      window.onYouTubePlayerAPIReady=()=>{
+        player = new window.YT.Player('ytplayer', {
+          height: '100%',
+          width: '100%',
+          videoId: `${video.id}`,
+          playerVars:{
+            autoplay:1,
+          }
+        });
+      }
+    }
   }
+          
+  handleMainView=()=>{
+    this.dftRef.current.style.display="flex";    
+    this.viewRef.current.style.display="none";     
+    this.setState({View:<></>});
+  }                                
 
   handleSearch=(text)=>{
-    this.SearchVideoItem(text);
+    this.SearchVideoItem(text);                           
   }
-
-  render() {
-    return <div className="inner">
-      <Header 
+                
+  render() {                      
+    return <div className="inner">                   
+      <Header                                                   
       onMainView={this.handleMainView}
-      onSearch={this.handleSearch}
-      ></Header>
+      onSearch={this.handleSearch}                                                                                                   
+      ></Header>                                         
       <section className="main" ref={this.dftRef}>
         <Sidebar></Sidebar>
-        <Videos videos={this.state.videos} 
+        <Videos videos={this.state.videos}      
                 onView={this.handleVideoView}>
         </Videos>
       </section>
       <section className="videoView" ref={this.viewRef}>
-        <article className="VideoInfo">
-          <VideoView></VideoView>
-          <VideoInfo info={this.state.video_info}></VideoInfo>
-        </article>
-        <article className="SideVideo">
-          <SideVideo
-          videos={this.state.videos}
-          ></SideVideo>
-        </article>
+        {this.state.View}
       </section>
     </div>
   }
