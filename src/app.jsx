@@ -12,9 +12,13 @@ class App extends Component {
     ],
     video_info:{},
     View:<></>,
+    toggle:false,
+    auth:null,
   }
 
   APIKEY=process.env.REACT_APP_API_KEY;
+  API_CLIENT_ID=process.env.REACT_APP_CLIENT_ID;
+
   LoadVideoItems=()=>{
     const requestOptions = {
       method: 'GET',
@@ -79,10 +83,91 @@ class App extends Component {
       .catch(error => console.log('error', error));
   }
 
-  componentDidMount(){
-    this.LoadVideoItems();
+  parseQueryString=()=>{
+    const fragmentString = window.location.hash.substring(1);
+    const params = {};
+    let token;
+    let regex = /([^&=]+)=([^&]*)/g, m;
+    while (m = regex.exec(fragmentString)) {
+      params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+    }
+    if (Object.keys(params).length > 0) {
+      localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
+    }
+    if(localStorage.getItem('oauth2-test-params')!==null){
+      token= JSON.parse(localStorage.getItem('oauth2-test-params'))['access_token'];
+      this.setState({auth:token});
+    }
   }
 
+  handleAuth=()=>{
+    if(this.state.auth===null){
+      this.oauthSignIn();
+    }
+    else{
+      this.oauthSignOut();
+      //this.rest();
+    }
+  }
+  // rest=()=>{
+  //   var requestOptions = {
+  //     method: 'GET',
+  //     redirect: 'follow'
+  //   };
+    
+  //   fetch(`https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&maxResults=10&access_token=${this.state.auth}`, requestOptions)
+  //     .then(response => response.text())
+  //     .then(result => console.log(result))
+  //     .catch(error => console.log('error', error));
+  // }
+
+  oauthSignIn=()=> {
+    const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+  
+    const form = document.createElement('form');
+    form.setAttribute('method', 'GET');
+    form.setAttribute('action', oauth2Endpoint);
+    const scope="https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtubepartner"
+
+    const params = {'client_id': this.API_CLIENT_ID,
+                  'redirect_uri': 'http://localhost:3000/',
+                  'response_type': 'token',
+                  'scope': scope,
+                  'include_granted_scopes': 'true',
+                  'state': 'pass-through value'};
+  
+    for (let p in params) {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'hidden');
+      input.setAttribute('name', p);
+      input.setAttribute('value', params[p]);
+      form.appendChild(input);
+    }
+  
+    document.body.appendChild(form);
+    form.submit();
+  }
+
+  oauthSignOut=()=>{
+    const revokeTokenEndpoint = 'https://oauth2.googleapis.com/revoke';
+
+    const form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', revokeTokenEndpoint);
+
+    const tokenField = document.createElement('input');
+    tokenField.setAttribute('type', 'hidden');
+    tokenField.setAttribute('name', 'token');
+    tokenField.setAttribute('value', this.state.auth);
+    form.appendChild(tokenField);
+
+    document.body.appendChild(form);
+    form.submit();
+    // event.preventDefault();
+    localStorage.removeItem("oauth2-test-params");
+    this.setState({auth:null});
+    window.location.assign("http://localhost:3000/");
+  }
 
   dftRef=React.createRef();
   viewRef=React.createRef();
@@ -175,15 +260,28 @@ class App extends Component {
   handleSearch=(text)=>{
     this.SearchVideoItem(text);                           
   }
+
+  handleToggle=()=>{
+    const flag=(this.state.toggle?false:true);
+    this.setState({toggle:flag});
+  }
+
+  componentDidMount(){
+    this.LoadVideoItems();
+    this.parseQueryString();
+  }
                 
   render() {                      
     return <div className="inner">                   
       <Header                                                   
       onMainView={this.handleMainView}
-      onSearch={this.handleSearch}                                                                                                   
+      onSearch={this.handleSearch} 
+      onToggle={this.handleToggle}
+      onAuth={this.handleAuth}
+      auth={this.state.auth}                                                                                                  
       ></Header>                                         
       <section className="main" ref={this.dftRef}>
-        <Sidebar onCategory={this.handleSearch}></Sidebar>
+        <Sidebar onCategory={this.handleSearch} toggle={this.state.toggle}></Sidebar>
         <Videos videos={this.state.videos}      
                 onView={this.handleVideoView}>
         </Videos>

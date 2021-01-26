@@ -4,6 +4,24 @@
     background: rgb(44, 44, 44);
     height: 100%;
 }
+@media screen and (max-width:768px){
+    .sidebar{
+        animation: toggle-animation-off 0.3s ease-in;
+        animation-fill-mode: both;
+    }
+}
+.sidebar.toggleon{
+    animation: toggle-animation-on 0.3s ease-in;
+    animation-fill-mode: both;
+}
+@keyframes toggle-animation-off{
+    from{left: 0}
+    to{left: -9999px}
+}
+@keyframes toggle-animation-on{
+    from{left: -100px}
+    to{left: 0}
+}
 .sidebar li{
     color: white;
     padding: 5px;
@@ -25,7 +43,6 @@
 .sidebar .categoryTitle{
     font-weight: 600;
     margin-top: 50px;
-    /* color: #ff1c1c; */
 }
 
 .sidebar .category img{

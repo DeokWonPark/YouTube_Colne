@@ -1,5 +1,5 @@
 section{
-    padding-top: 3%;
+    padding-top: 50px;
     background: rgb(24, 24, 24);
     width: 100%;
 }
@@ -10,4 +10,20 @@ section .videos{
     grid-template-columns: repeat(4,21%);
     row-gap: 20px;
     column-gap: 30px;
+}
+@media screen and (max-width:1280px){
+    section .videos{
+        grid-template-columns: repeat(3,28%);
+    }
+}
+@media screen and (max-width:768px){
+    section .videos{
+        margin-left: 0;
+        grid-template-columns: repeat(2,42%);
+    }
+}
+@media screen and (max-width:480px){
+    section .videos{
+        grid-template-columns: repeat(1,84%);
+    }
 }

@@ -16,9 +16,8 @@ header{
 header .logo{
     display: flex;
     align-items: center;
-    margin-left: 80px;
+    margin-left: 30px;
     cursor: pointer;
-    /* margin-right: 15px; */
 }
 header .logo_name{
     color: #ffffff;
@@ -26,6 +25,30 @@ header .logo_name{
     font-size: 20px;
     padding-bottom: 2px;
 }
+header .toggleBtn{
+    visibility: hidden;
+    margin-right: 2px;
+    color: white;
+    font-size: 20px;
+    transition: all 0.3s;
+}
+header .toggleBtn:active{
+    color: #ff1c1c;
+    transform: scale(1.3);
+}
+
+@media screen and (max-width:768px){
+    header .logo{
+        margin-left: 0px;
+    }
+    header .toggleBtn{
+        visibility: visible;
+    }
+    header .logo_name{
+        display: none;
+    }
+}
+
 header .logoBtn img{
     width: 35px;
     height: 35px;
@@ -60,6 +83,9 @@ header .userBtn{
     border-radius: 50%;
     width: 35px;
     height: 35px;
+}
+header .userBtn.auth{
+    background: tomato;
 }
 header .userBtn svg{
     font-size: 22px;
