@@ -18,7 +18,26 @@
 }
 .VideoInfo{
   width: 70%;
+  height: 100%;
 }
 .SideVideo{
   width: 25%;
+}
+
+@media screen and (max-width:980px){
+  .videoView{
+    flex-direction: column;
+    /* flex-wrap: wrap; */
+  }
+  .VideoInfo{
+    width: 100%;
+    height: 9999px;
+    margin-bottom: 20px;
+  }
+  .SideVideo{
+    width: 100%;
+  }
+  .SideVideo div{
+    padding-left: 0;
+  }
 }

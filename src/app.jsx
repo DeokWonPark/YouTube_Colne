@@ -130,16 +130,16 @@ class App extends Component {
   }
 
   handleLikeVideo=()=>{
+    if(this.state.auth==null){
+      this.oauthSignIn();
+      return;
+    }
     if(this.dftRef.current.style.display==="none"){
       this.handleMainView();
     }
     const requestOptions = {
       method: 'GET',
       redirect: 'follow',
-      // headers:{
-      //   'Content-Type': 'application/json',
-      //   // 'Accept': 'application/json'
-      // },
     };
     
     fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&myRating=like&maxResult=3&access_token=${this.state.auth}`, requestOptions)
@@ -167,10 +167,10 @@ class App extends Component {
       params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
     }
     if (Object.keys(params).length > 0) {
-      localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
+      localStorage.setItem('oauth2-params', JSON.stringify(params) );
     }
-    if(localStorage.getItem('oauth2-test-params')!==null){
-      token= JSON.parse(localStorage.getItem('oauth2-test-params'))['access_token'];
+    if(localStorage.getItem('oauth2-params')!==null){
+      token= JSON.parse(localStorage.getItem('oauth2-params'))['access_token'];
       this.setState({auth:token});
     }
   }
@@ -226,7 +226,7 @@ class App extends Component {
 
     document.body.appendChild(form);
     form.submit();
-    localStorage.removeItem("oauth2-test-params");
+    localStorage.removeItem("oauth2-params");
     this.setState({auth:null});
     window.location.assign("http://localhost:3000/");
   }
@@ -347,6 +347,8 @@ class App extends Component {
         <Sidebar 
         onCategory={this.handleSearch} 
         toggle={this.state.toggle} 
+        auth={this.state.auth}
+        onAuth={this.oauthSignIn}
         subscribe={this.state.subscribe}
         onSubscribe={this.handleSucribeClick}
         onLike={this.handleLikeVideo}

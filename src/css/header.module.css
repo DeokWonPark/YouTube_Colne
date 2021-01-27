@@ -91,3 +91,39 @@ header .userBtn svg{
     font-size: 22px;
     color: floralwhite;
 }
+header .logoutBtn{
+    width: 70px;
+    position: fixed;
+    top:57px;
+    right:7px;
+    padding: 5px;
+    background: #e60202;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: none;
+}
+header .logoutBtn::after, header .logoutBtn::before{
+    bottom: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: "";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+header .logoutBtn::after{
+	border-bottom-color: #e60202;
+    border-width: 7px;
+	margin-left: -7px;
+}
+header .logoutBtn::before{
+    border-width: 14px;
+	margin-left: -14px;
+}
+
+

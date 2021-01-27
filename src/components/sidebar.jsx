@@ -15,6 +15,10 @@ class Sidebar extends Component {
         this.props.onCategory(item);
     }
     handleSucribe=()=>{
+        if(this.props.auth==null){
+            this.props.onAuth();
+            return;
+        }
         const state= this.state.toggle?false:true;
         if(state===true){
             this.subref.current.style.color="#ff1c1c";
