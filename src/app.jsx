@@ -10,6 +10,9 @@ class App extends Component {
     videos:[
 
     ],
+    subscribe:[
+
+    ],
     video_info:{},
     View:<></>,
     toggle:false,
@@ -39,7 +42,7 @@ class App extends Component {
   };
 
   LoadChannelItems=async (channelId,item)=>{
-    var requestOptions = {
+    const requestOptions = {
       method: 'GET',
       redirect: 'follow'
     };
@@ -62,12 +65,84 @@ class App extends Component {
     if(this.dftRef.current.style.display==="none"){
       this.handleMainView();
     }
-    var requestOptions = {
+    const requestOptions = {
       method: 'GET',
       redirect: 'follow'
     };
     
     fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=${text}&type=video&regionCode=kr&key=${this.APIKEY}`, requestOptions)
+      .then(response => response.json())
+      .then((result) => {
+        const promises=[];
+        result.items.map((item)=>{
+          promises.push(this.LoadChannelItems(item.snippet.channelId,item));
+        });
+
+        Promise.all(promises).then((values)=>{
+          const videos=[...values];
+          this.setState({videos});
+        });
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  LoadSubscribe=()=>{
+    if(this.state.auth===null){
+      return;
+    }
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+   
+    fetch(`https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&maxResults=50&access_token=${this.state.auth}`, requestOptions)
+      .then(response => response.json())
+      .then((result) => {
+        const subscribe=[...result.items];
+        this.setState({subscribe});
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  handleSucribeClick=(item)=>{
+    if(this.dftRef.current.style.display==="none"){
+      this.handleMainView();
+    }
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${item.snippet.resourceId.channelId}&maxResults=5&key=${this.APIKEY}`, requestOptions)
+      .then(response => response.json())
+      .then((result) => {
+        const promises=[];
+        result.items.map((item)=>{
+          promises.push(this.LoadChannelItems(item.snippet.channelId,item));
+        });
+
+        Promise.all(promises).then((values)=>{
+          const videos=[...values];
+          this.setState({videos});
+        });
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  handleLikeVideo=()=>{
+    if(this.dftRef.current.style.display==="none"){
+      this.handleMainView();
+    }
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+      // headers:{
+      //   'Content-Type': 'application/json',
+      //   // 'Accept': 'application/json'
+      // },
+    };
+    
+    fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&myRating=like&maxResult=3&access_token=${this.state.auth}`, requestOptions)
       .then(response => response.json())
       .then((result) => {
         const promises=[];
@@ -106,20 +181,8 @@ class App extends Component {
     }
     else{
       this.oauthSignOut();
-      //this.rest();
     }
   }
-  // rest=()=>{
-  //   var requestOptions = {
-  //     method: 'GET',
-  //     redirect: 'follow'
-  //   };
-    
-  //   fetch(`https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&maxResults=10&access_token=${this.state.auth}`, requestOptions)
-  //     .then(response => response.text())
-  //     .then(result => console.log(result))
-  //     .catch(error => console.log('error', error));
-  // }
 
   oauthSignIn=()=> {
     const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
@@ -163,7 +226,6 @@ class App extends Component {
 
     document.body.appendChild(form);
     form.submit();
-    // event.preventDefault();
     localStorage.removeItem("oauth2-test-params");
     this.setState({auth:null});
     window.location.assign("http://localhost:3000/");
@@ -266,9 +328,10 @@ class App extends Component {
     this.setState({toggle:flag});
   }
 
-  componentDidMount(){
+  async componentDidMount(){
     this.LoadVideoItems();
-    this.parseQueryString();
+    await this.parseQueryString();
+    this.LoadSubscribe();
   }
                 
   render() {                      
@@ -281,7 +344,13 @@ class App extends Component {
       auth={this.state.auth}                                                                                                  
       ></Header>                                         
       <section className="main" ref={this.dftRef}>
-        <Sidebar onCategory={this.handleSearch} toggle={this.state.toggle}></Sidebar>
+        <Sidebar 
+        onCategory={this.handleSearch} 
+        toggle={this.state.toggle} 
+        subscribe={this.state.subscribe}
+        onSubscribe={this.handleSucribeClick}
+        onLike={this.handleLikeVideo}
+        ></Sidebar>
         <Videos videos={this.state.videos}      
                 onView={this.handleVideoView}>
         </Videos>
