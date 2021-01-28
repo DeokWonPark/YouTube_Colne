@@ -8,7 +8,7 @@ class View extends Component {
         return <>
         <article className="VideoInfo">
             <VideoView></VideoView>
-            <VideoInfo info={this.props.video_info}></VideoInfo>
+            <VideoInfo info={this.props.video_info} subscribe={this.props.subscribe} onSubscribe={this.props.onSubscribe}></VideoInfo>
         </article>
         <article className="SideVideo">
             <SideVideo

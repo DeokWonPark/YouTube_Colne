@@ -86,7 +86,7 @@ class App extends Component {
       .catch(error => console.log('error', error));
   }
 
-  LoadSubscribe=()=>{
+  LoadSubscribe=async ()=>{
     if(this.state.auth===null){
       return;
     }
@@ -95,7 +95,7 @@ class App extends Component {
       redirect: 'follow'
     };
    
-    fetch(`https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&maxResults=50&access_token=${this.state.auth}`, requestOptions)
+    await fetch(`https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&maxResults=50&access_token=${this.state.auth}`, requestOptions)
       .then(response => response.json())
       .then((result) => {
         const subscribe=[...result.items];
@@ -156,6 +156,88 @@ class App extends Component {
         });
       })
       .catch(error => console.log('error', error));
+  }
+
+  subscribeInsert=async (channelId)=>{
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${this.state.auth}`);
+      myHeaders.append("Content-Type", "text/plain");
+
+      const value={
+        snippet:{
+          resourceId:{
+            channelId:channelId
+          }
+        }
+      }
+
+      const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(value),
+        redirect: 'follow'
+      };
+
+      let status=null;
+
+      await fetch("https://www.googleapis.com/youtube/v3/subscriptions?part=snippet", requestOptions)
+        .then(response => response.status)
+        .then(result=> status=Number.parseInt(result))
+        .catch(error => console.log('error', error));
+
+        return status;
+  }
+
+  subscribeDelete=async (issubscribe)=>{
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${this.state.auth}`);
+
+    const requestOptions = {
+      method: 'DELETE',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+
+    let status=null;
+
+    await fetch(`https://www.googleapis.com/youtube/v3/subscriptions?id=${issubscribe}`, requestOptions)
+      .then(response => response.status)
+      .then(result=> status=status=Number.parseInt(result))
+      .catch(error => console.log('error', error));
+
+      return status;
+  }
+  
+  handleSubscribe=async (issubscribe,channelId)=>{ 
+    if(this.state.auth===null){
+      this.oauthSignIn();
+    }
+    if(issubscribe===null){
+      //post
+      const status=await this.subscribeInsert(channelId);
+      if(status<400){
+        await this.LoadSubscribe();
+        this.setState({View:<View 
+          videos={this.state.videos} 
+          video_info={this.state.video_info}
+          subscribe={this.state.subscribe} 
+          onView={this.handleOtherVideoView}
+          onSubscribe={this.handleSubscribe}></View>});
+      }
+    }
+    else{
+      //delete
+      const status=await this.subscribeDelete(issubscribe);
+      if(status<400){
+        await this.LoadSubscribe();
+        this.setState({View:<View 
+          videos={this.state.videos} 
+          video_info={this.state.video_info}
+          subscribe={this.state.subscribe} 
+          onView={this.handleOtherVideoView}
+          onSubscribe={this.handleSubscribe}></View>});
+      }
+    }
   }
 
   parseQueryString=()=>{
@@ -241,7 +323,12 @@ class App extends Component {
     const video_info={...video};
     await this.setState({video_info});
 
-    this.setState({View:<View videos={this.state.videos} video_info={this.state.video_info} onView={this.handleOtherVideoView}></View>});
+    this.setState({View:<View 
+      videos={this.state.videos} 
+      video_info={this.state.video_info}
+      subscribe={this.state.subscribe} 
+      onView={this.handleOtherVideoView}
+      onSubscribe={this.handleSubscribe}></View>});
 
     let player;
 
@@ -290,7 +377,12 @@ class App extends Component {
     await this.setState({video_info});
 
     this.setState({View:<></>});
-    this.setState({View:<View videos={this.state.videos} video_info={this.state.video_info} onView={this.handleOtherVideoView}></View>});
+    this.setState({View:<View 
+      videos={this.state.videos} 
+      video_info={this.state.video_info}
+      subscribe={this.state.subscribe} 
+      onView={this.handleOtherVideoView}
+      onSubscribe={this.handleSubscribe}></View>});
     let player;
 
     let id;

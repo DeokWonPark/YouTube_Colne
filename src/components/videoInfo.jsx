@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import styles from '../css/videoInfo.module.css';
+import classNames from 'classnames';
 
 class VideoInfo extends Component {
+
+    state={
+        issubscribe:null,
+    }
+
     tags=[];
     title=null;
     date=null;
     channelLogo=null;
     channelTitle=null;
     description=null;
+    SubBtn=React.createRef();
+
     getProps=()=>{
+        this.tags=[];
 
         if(Object.keys(this.props.info).length===0){
             return;
@@ -25,12 +34,35 @@ class VideoInfo extends Component {
         this.channelLogo=this.props.info.snippet.channels;
         this.channelTitle=this.props.info.snippet.channelTitle;
         this.description=this.props.info.snippet.channel_description;
-        console.log(this.title)
     }
 
+    isSubscribe=()=>{
+        let flag=false;
+        this.props.subscribe.map((item)=>{
+            if(item.snippet.resourceId.channelId===this.props.info.snippet.channelId){
+                this.setState({issubscribe:item.id});
+                flag=true;
+            }
+        });
+        if(!flag){
+            this.setState({issubscribe:null});
+        }
+    }
+
+    handleSubscribe=async ()=>{
+        this.SubBtn.current.setAttribute("disabled","disabled");
+        await this.props.onSubscribe(this.state.issubscribe,this.props.info.snippet.channelId);
+        this.isSubscribe();
+        this.SubBtn.current.removeAttribute("disabled");
+    }
+    componentDidMount(){
+        this.isSubscribe();
+    }
     render() {
 
-        {this.getProps()}
+        {
+            this.getProps();
+        }
 
         return <>
         <div className={styles.video_info}>
@@ -52,7 +84,7 @@ class VideoInfo extends Component {
                 <button className={styles.channel_img}><img src={this.channelLogo} alt="channel_logo"/></button>
                 <p>{this.channelTitle}</p>
             </div>
-            <button className={styles.subscribe}>구독</button>
+            <button className={classNames(styles.subscribe, this.state.issubscribe?styles.subscribing:"")} onClick={this.handleSubscribe} ref={this.SubBtn}>구독</button>
         </div>
         <span className={styles.description}>
             {this.description}

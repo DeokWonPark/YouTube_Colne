@@ -73,6 +73,12 @@ hr{
 .channel_info .subscribe:hover{
     opacity: 0.7;
 }
+.channel_info .subscribe.subscribing{
+    background: gray;
+}
+.channel_info .subscribe.subscribing::after{
+    content: "중";
+}
 .description{
     display: block;
     padding: 20px;
