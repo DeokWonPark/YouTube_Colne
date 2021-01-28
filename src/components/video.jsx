@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classNames from 'classnames';
 import styles from '../css/video.module.css';
 
-class Video extends Component {
+class Video extends PureComponent {
     handleVideoView=()=>{this.props.onView(this.props.info)}
 
     render() {

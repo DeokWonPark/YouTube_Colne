@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from '../css/videoView.module.css';
 
-class VideoView extends Component {
+class VideoView extends PureComponent {
     
     render() {
         return <div id="ytplayer" className={styles.video_view}></div>

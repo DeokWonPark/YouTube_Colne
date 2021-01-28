@@ -22,13 +22,13 @@ class App extends Component {
   APIKEY=process.env.REACT_APP_API_KEY;
   API_CLIENT_ID=process.env.REACT_APP_CLIENT_ID;
 
-  LoadVideoItems=()=>{
+  GETResponse=(uri,callback)=>{
     const requestOptions = {
       method: 'GET',
       redirect: 'follow'
     };
-    
-    fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=2&regionCode=kr&key=${this.APIKEY}`, requestOptions)
+
+    fetch(uri, requestOptions)
       .then(response => response.json())
       .then((result) => {
         const promises=[];
@@ -36,10 +36,10 @@ class App extends Component {
           promises.push(this.LoadChannelItems(item.snippet.channelId,item)); //수행할 비동기 함수들을 삽입
         });
     
-        Promise.all(promises).then((values)=> this.setState({videos:values})); //병렬적으로 비동기 함수 실행
+        Promise.all(promises).then((values)=> callback(values)); //병렬적으로 비동기 함수 실행
       })
       .catch(error => console.log('error', error));
-  };
+  }
 
   LoadChannelItems=async (channelId,item)=>{
     const requestOptions = {
@@ -60,30 +60,20 @@ class App extends Component {
       })
   }
 
-  SearchVideoItem=(text)=>{
-    
-    if(this.dftRef.current.style.display==="none"){
-      this.handleMainView();
-    }
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-    
-    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=${text}&type=video&regionCode=kr&key=${this.APIKEY}`, requestOptions)
-      .then(response => response.json())
-      .then((result) => {
-        const promises=[];
-        result.items.map((item)=>{
-          promises.push(this.LoadChannelItems(item.snippet.channelId,item));
-        });
+  LoadVideoItems=()=>{
+    const uri=`https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&regionCode=kr&key=${this.APIKEY}`;
+    this.GETResponse(uri,(values)=>{this.setState({videos:values})});
+  }
 
-        Promise.all(promises).then((values)=>{
-          const videos=[...values];
-          this.setState({videos});
-        });
-      })
-      .catch(error => console.log('error', error));
+  SearchVideoItem=(text)=>{
+    if(this.dftRef.current.style.display==="none"){
+          this.handleMainView();
+    }
+    const uri=`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q=${text}&type=video&regionCode=kr&key=${this.APIKEY}`;
+    this.GETResponse(uri,(values)=>{
+              const videos=[...values];
+              this.setState({videos});
+    });
   }
 
   LoadSubscribe=async ()=>{
@@ -108,25 +98,11 @@ class App extends Component {
     if(this.dftRef.current.style.display==="none"){
       this.handleMainView();
     }
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-    
-    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${item.snippet.resourceId.channelId}&maxResults=5&key=${this.APIKEY}`, requestOptions)
-      .then(response => response.json())
-      .then((result) => {
-        const promises=[];
-        result.items.map((item)=>{
-          promises.push(this.LoadChannelItems(item.snippet.channelId,item));
-        });
-
-        Promise.all(promises).then((values)=>{
-          const videos=[...values];
-          this.setState({videos});
-        });
-      })
-      .catch(error => console.log('error', error));
+    const uri=`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${item.snippet.resourceId.channelId}&maxResults=10&key=${this.APIKEY}`;
+    this.GETResponse(uri,(values)=>{
+              const videos=[...values];
+              this.setState({videos});
+    });
   }
 
   handleLikeVideo=()=>{
@@ -137,27 +113,13 @@ class App extends Component {
     if(this.dftRef.current.style.display==="none"){
       this.handleMainView();
     }
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow',
-    };
-    
-    fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&myRating=like&maxResult=3&access_token=${this.state.auth}`, requestOptions)
-      .then(response => response.json())
-      .then((result) => {
-        const promises=[];
-        result.items.map((item)=>{
-          promises.push(this.LoadChannelItems(item.snippet.channelId,item));
-        });
-
-        Promise.all(promises).then((values)=>{
-          const videos=[...values];
-          this.setState({videos});
-        });
-      })
-      .catch(error => console.log('error', error));
+    const uri=`https://www.googleapis.com/youtube/v3/videos?part=snippet&myRating=like&maxResult=3&access_token=${this.state.auth}`;
+    this.GETResponse(uri,(values)=>{
+              const videos=[...values];
+              this.setState({videos});
+    });
   }
-
+  
   subscribeInsert=async (channelId)=>{
       const myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${this.state.auth}`);

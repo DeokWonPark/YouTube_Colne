@@ -27,7 +27,7 @@
 @media screen and (max-width:980px){
   .videoView{
     flex-direction: column;
-    /* flex-wrap: wrap; */
+    padding: 100px 30px;
   }
   .VideoInfo{
     width: 100%;

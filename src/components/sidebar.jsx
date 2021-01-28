@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from '../css/sidebar.module.css';
 import classNames from 'classnames';
 import Subscribebar from './subscribebar';
 
-class Sidebar extends Component {
+class Sidebar extends PureComponent {
     state={
         toggle:false,
     }

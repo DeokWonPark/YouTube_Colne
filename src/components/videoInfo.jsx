@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from '../css/videoInfo.module.css';
 import classNames from 'classnames';
 
-class VideoInfo extends Component {
+class VideoInfo extends PureComponent {
 
     state={
         issubscribe:null,
