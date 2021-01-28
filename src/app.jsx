@@ -237,7 +237,7 @@ class App extends Component {
     const scope="https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtubepartner"
 
     const params = {'client_id': this.API_CLIENT_ID,
-                  'redirect_uri': 'http://localhost:3000/',
+                  'redirect_uri': 'https://deokwonpark.github.io/YouTube_Colne/',
                   'response_type': 'token',
                   'scope': scope,
                   'include_granted_scopes': 'true',
@@ -272,7 +272,7 @@ class App extends Component {
     form.submit();
     localStorage.removeItem("oauth2-params");
     this.setState({auth:null});
-    window.location.assign("http://localhost:3000/");
+    window.location.assign("https://deokwonpark.github.io/YouTube_Colne/");
   }
 
   dftRef=React.createRef();

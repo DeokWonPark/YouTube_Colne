@@ -49,9 +49,9 @@ class Sidebar extends PureComponent {
                 <li ref={this.subref} onClick={this.handleSucribe}><i className="fab fa-youtube-square"></i>구독</li>
                 <li><i className="fas fa-box-open"></i>보관함</li>
                 <li className={styles.categoryTitle}>카테고리</li>
-                <li className={styles.category} onClick={this.handleCategory.bind(this,"롤")}><img src="../../images/LOL.png" alt="LOL"></img>LOL</li>
-                <li className={styles.category} onClick={this.handleCategory.bind(this,"kpop")}><img src="../../images/music.png" alt="K-POP"></img>K-POP</li>
-                <li className={styles.category} onClick={this.handleCategory.bind(this,"영화")}><img src="../../images/movie.png" alt="Movie"></img>Movie</li>
+                <li className={styles.category} onClick={this.handleCategory.bind(this,"롤")}><img src="https://raw.githubusercontent.com/DeokWonPark/YouTube_Colne/master/public/images/LOL.png" alt="LOL"></img>LOL</li>
+                <li className={styles.category} onClick={this.handleCategory.bind(this,"kpop")}><img src="https://raw.githubusercontent.com/DeokWonPark/YouTube_Colne/master/public/images/music.png" alt="K-POP"></img>K-POP</li>
+                <li className={styles.category} onClick={this.handleCategory.bind(this,"영화")}><img src="https://github.com/DeokWonPark/YouTube_Colne/blob/master/public/images/movie.png" alt="Movie"></img>Movie</li>
             </ul>
             <Subscribebar 
             top={this.clintX} 
