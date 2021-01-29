@@ -1,6 +1,6 @@
-# YouTube Clone <img src="https://raw.githubusercontent.com/DeokWonPark/YouTube_Colne/master/public/images/logo.png" width="50px" />
+# YouTube Clone <img src="https://raw.githubusercontent.com/DeokWonPark/YouTube_Colne/master/public/images/logo.png" width="30px" />
 
-React practice <img src="https://miro.medium.com/max/500/1*cPh7ujRIfcHAy4kW2ADGOw.png" width="50px" />
+React practice <img src="https://miro.medium.com/max/500/1*cPh7ujRIfcHAy4kW2ADGOw.png" width="30px" />
 
 React, PostCSS를 사용해서 YouTube Page를 클론코딩
 
@@ -12,10 +12,10 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 
 ### 개요
 
-1. [Purpose of the project](#Purpose of the project)
-2. [Development stack](#Development stack )
-3. [About The Project](#About The Project)
-4. [프로젝트를 통해서 어려웠던 점, 배운점](#프로젝트를 통해서 어려웠던 점, 배운점)
+1. [Purpose of the project](#Purpose-of-the-project)
+2. [Development stack](#Development-stack )
+3. [About The Project](#About-The-Project)
+4. [프로젝트를 통해서 어려웠던 점, 배운점](#프로젝트를-통해서-어려웠던-점,-배운점)
 5. [Reference](#Reference)
 
 
@@ -34,7 +34,7 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 
 ### Development stack
 
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2PD2yAr4Tt4TG62BatFqSltJmYLO1_DFUqA&usqp=CAU" width="50px" /><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTAi6Ah3SwQOrGOrMCj_yF6SgNR_wgM8rJlw&usqp=CAU" width="43px" /> ![](https://icon-icons.com/icons2/2108/PNG/32/javascript_icon_130900.png)<img src="https://miro.medium.com/max/500/1*cPh7ujRIfcHAy4kW2ADGOw.png" width="50px" />
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2PD2yAr4Tt4TG62BatFqSltJmYLO1_DFUqA&usqp=CAU" width="50px" />              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTAi6Ah3SwQOrGOrMCj_yF6SgNR_wgM8rJlw&usqp=CAU" width="43px" />              ![](https://icon-icons.com/icons2/2108/PNG/32/javascript_icon_130900.png)              <img src="https://miro.medium.com/max/500/1*cPh7ujRIfcHAy4kW2ADGOw.png" width="50px" />      
 
 
 
@@ -56,15 +56,25 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 
 
 
+----
+
+
+
 #### 	Video View
 
 - Desktop
 
 <img src="./public/images/README/VideoPage.PNG" width="800px" align="left"/>
 
+
+
 - Mobile
 
 <img src="./public/images/README/MobileVideoView.gif" width="250px" align="left"/>
+
+
+
+----
 
 
 
@@ -96,6 +106,10 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 
 
 
+----
+
+
+
 #### Google OAuth 인증을 통해 User의 구독정보를 활용한 기능
 
 - 구독한 채널의 정보를 이용한 영상제공
@@ -107,6 +121,10 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 - 실제 YouTube에 반영되는 구독/구독취소 기능
 
 <img src="./public/images/README/Subscribe2.gif" width="800px" align="left"/>
+
+
+
+
 
 
 
