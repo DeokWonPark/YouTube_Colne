@@ -1,22 +1,24 @@
-# YouTube Clone ![](https://raw.githubusercontent.com/DeokWonPark/YouTube_Colne/master/public/images/logo.png)
+# YouTube Clone <img src="https://raw.githubusercontent.com/DeokWonPark/YouTube_Colne/master/public/images/logo.png" width="50px" />
 
-React practice <img src="https://miro.medium.com/max/500/1*cPh7ujRIfcHAy4kW2ADGOw.png" style="zoom: 7%;" />
+React practice <img src="https://miro.medium.com/max/500/1*cPh7ujRIfcHAy4kW2ADGOw.png" width="50px" />
 
 React, PostCSS를 사용해서 YouTube Page를 클론코딩
 
 YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 제공 및 사용자중심의 Video서비스 제공
 
-[YouTube Clone URL]: https://deokwonpark.github.io/YouTube_Colne/
+[# YouTube Clone URL](https://deokwonpark.github.io/YouTube_Colne/ )
 
 
 
 ### 개요
 
-1. [Purpose of the project](### Purpose of the project)
-2. [Development stack](### Development stack )
-3. [About The Project](### About The Project)
-4. [프로젝트를 통해서 어려웠던 점, 배운점](### 프로젝트를 통해서 어려웠던 점, 배운점)
-5. [Reference](### Reference)
+1. [Purpose of the project](#Purpose of the project)
+2. [Development stack](#Development stack )
+3. [About The Project](#About The Project)
+4. [프로젝트를 통해서 어려웠던 점, 배운점](#프로젝트를 통해서 어려웠던 점, 배운점)
+5. [Reference](#Reference)
+
+
 
 
 
@@ -28,9 +30,13 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 
 
 
+
+
 ### Development stack
 
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2PD2yAr4Tt4TG62BatFqSltJmYLO1_DFUqA&usqp=CAU" style="zoom: 17%;" /><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTAi6Ah3SwQOrGOrMCj_yF6SgNR_wgM8rJlw&usqp=CAU" style="zoom: 15%;" /> ![](https://icon-icons.com/icons2/2108/PNG/32/javascript_icon_130900.png)<img src="https://miro.medium.com/max/500/1*cPh7ujRIfcHAy4kW2ADGOw.png" style="zoom: 7%;" />
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2PD2yAr4Tt4TG62BatFqSltJmYLO1_DFUqA&usqp=CAU" width="50px" /><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTAi6Ah3SwQOrGOrMCj_yF6SgNR_wgM8rJlw&usqp=CAU" width="43px" /> ![](https://icon-icons.com/icons2/2108/PNG/32/javascript_icon_130900.png)<img src="https://miro.medium.com/max/500/1*cPh7ujRIfcHAy4kW2ADGOw.png" width="50px" />
+
+
 
 
 
@@ -42,11 +48,11 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 
 - Desktop
 
-​	<img src="./public/images/README/MainPage.png" style="zoom: 40%;" />        
+​	<img src="./public/images/README/MainPage.PNG" width="800px" />        
 
 - Mobile
 
-​    <img src="./public/images/README/MobileMainPage.png" style="zoom: 50%;" />
+​    <img src="./public/images/README/MobileMainPage.PNG" width="250px" />
 
 
 
@@ -54,19 +60,19 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 
 - Desktop
 
-<img src="./public/images/README/VideoPage.png" style="zoom:40%;" align="left"/>
+<img src="./public/images/README/VideoPage.PNG" width="800px" align="left"/>
 
 - Mobile
 
-<img src="./public/images/README/MobileVideoView.gif" style="zoom:50%;" align="left"/>
+<img src="./public/images/README/MobileVideoView.gif" width="250px" align="left"/>
 
 
 
-	#### 카테고리 View 기능
+#### 카테고리 View 기능
 
 `카테고리 분류를 통해서 자주보는 카테고리의 영상을 빠르게 찾아준다.`
 
-<img src="./public/images/README/category_item.png" style="zoom:80%;" align="left"/>          <img src="./public/images/README/Category.png" style="zoom:40%;" align="left"/>
+<img src="./public/images/README/category_item.PNG" width="70px" align="left"/>          <img src="./public/images/README/Category.png" width="800px" align="left"/>
 
 
 
@@ -94,13 +100,13 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 
 - 구독한 채널의 정보를 이용한 영상제공
 
-<img src="./public/images/README/Subscribe1.png" style="zoom:50%;" align="left"/>
+<img src="./public/images/README/Subscribe1.PNG" width="1000px" align="left"/>
 
 
 
 - 실제 YouTube에 반영되는 구독/구독취소 기능
 
-<img src="./public/images/README/Subscribe2.gif" style="zoom:40%;" align="left"/>
+<img src="./public/images/README/Subscribe2.gif" width="800px" align="left"/>
 
 
 
