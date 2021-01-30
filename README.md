@@ -30,7 +30,7 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 
 
 
-https://icon-icons.com/icons2/2108/PNG/32/javascript_icon_130900.png
+
 
 ### Development stack
 
