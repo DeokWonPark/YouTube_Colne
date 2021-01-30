@@ -7,176 +7,59 @@ import View from './components/view';
 
 class App extends Component {
   state={
-    videos:[
-
-    ],
-    subscribe:[
-
-    ],
+    videos:[],
+    subscribe:[],
     video_info:{},
     View:<></>,
     toggle:false,
     auth:null,
   }
 
-  APIKEY=process.env.REACT_APP_API_KEY;
-  API_CLIENT_ID=process.env.REACT_APP_CLIENT_ID;
-
-  GETResponse=(uri,callback)=>{
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-
-    fetch(uri, requestOptions)
-      .then(response => response.json())
-      .then((result) => {
-        const promises=[];
-        result.items.map((item)=>{
-          promises.push(this.LoadChannelItems(item.snippet.channelId,item)); //수행할 비동기 함수들을 삽입
-        });
-    
-        Promise.all(promises).then((values)=> callback(values)); //병렬적으로 비동기 함수 실행
-      })
-      .catch(error => console.log('error', error));
-  }
-
-  LoadChannelItems=async (channelId,item)=>{
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-    
-     await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${this.APIKEY}`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        item.snippet.channels=result.items[0].snippet.thumbnails.medium.url;
-        item.snippet.channel_description=result.items[0].snippet.description;
-      })
-      .catch(error => console.log('error', error));
-    
-      return new Promise((resolve,reject)=>{
-        resolve(item);
-      })
-  }
-
-  LoadVideoItems=()=>{
-    const uri=`https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&regionCode=kr&key=${this.APIKEY}`;
-    this.GETResponse(uri,(values)=>{this.setState({videos:values})});
-  }
-
-  SearchVideoItem=(text)=>{
-    if(this.dftRef.current.style.display==="none"){
-          this.handleMainView();
-    }
-    const uri=`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q=${text}&type=video&regionCode=kr&key=${this.APIKEY}`;
-    this.GETResponse(uri,(values)=>{
-              const videos=[...values];
-              this.setState({videos});
-    });
-  }
-
   LoadSubscribe=async ()=>{
     if(this.state.auth===null){
       return;
     }
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-   
-    await fetch(`https://www.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&maxResults=50&access_token=${this.state.auth}`, requestOptions)
-      .then(response => response.json())
-      .then((result) => {
-        const subscribe=[...result.items];
-        this.setState({subscribe});
-      })
-      .catch(error => console.log('error', error));
+    const items=await this.props.youtube.LoadSubscribe(this.state.auth);
+    const subscribe=[...items];
+    this.setState({subscribe});
+    return;
   }
 
   handleSucribeClick=(item)=>{
     if(this.dftRef.current.style.display==="none"){
       this.handleMainView();
     }
-    const uri=`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${item.snippet.resourceId.channelId}&maxResults=10&key=${this.APIKEY}`;
-    this.GETResponse(uri,(values)=>{
-              const videos=[...values];
-              this.setState({videos});
+
+    this.props.youtube.handleSucribeClick(item)
+    .then((values)=>{
+      const videos=[...values];
+      this.setState({videos});
     });
   }
 
   handleLikeVideo=()=>{
     if(this.state.auth==null){
-      this.oauthSignIn();
+      this.props.oauth.oauthSignIn();
       return;
     }
     if(this.dftRef.current.style.display==="none"){
       this.handleMainView();
     }
-    const uri=`https://www.googleapis.com/youtube/v3/videos?part=snippet&myRating=like&maxResult=3&access_token=${this.state.auth}`;
-    this.GETResponse(uri,(values)=>{
-              const videos=[...values];
-              this.setState({videos});
+
+    this.props.youtube.handleLikeVideo(this.state.auth)
+    .then((values)=>{
+      const videos=[...values];
+      this.setState({videos});
     });
-  }
-  
-  subscribeInsert=async (channelId)=>{
-      const myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${this.state.auth}`);
-      myHeaders.append("Content-Type", "text/plain");
-
-      const value={
-        snippet:{
-          resourceId:{
-            channelId:channelId
-          }
-        }
-      }
-
-      const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(value),
-        redirect: 'follow'
-      };
-
-      let status=null;
-
-      await fetch("https://www.googleapis.com/youtube/v3/subscriptions?part=snippet", requestOptions)
-        .then(response => response.status)
-        .then(result=> status=Number.parseInt(result))
-        .catch(error => console.log('error', error));
-
-        return status;
-  }
-
-  subscribeDelete=async (issubscribe)=>{
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${this.state.auth}`);
-
-    const requestOptions = {
-      method: 'DELETE',
-      headers: myHeaders,
-      redirect: 'follow'
-    };
-
-    let status=null;
-
-    await fetch(`https://www.googleapis.com/youtube/v3/subscriptions?id=${issubscribe}`, requestOptions)
-      .then(response => response.status)
-      .then(result=> status=status=Number.parseInt(result))
-      .catch(error => console.log('error', error));
-
-      return status;
   }
   
   handleSubscribe=async (issubscribe,channelId)=>{ 
     if(this.state.auth===null){
-      this.oauthSignIn();
+      this.props.oauth.oauthSignIn();
     }
     if(issubscribe===null){
       //post
-      const status=await this.subscribeInsert(channelId);
+      const status=await this.props.youtube.subscribeInsert(channelId,this.state.auth);
       if(status<400){
         await this.LoadSubscribe();
         this.setState({View:<View 
@@ -189,7 +72,7 @@ class App extends Component {
     }
     else{
       //delete
-      const status=await this.subscribeDelete(issubscribe);
+      const status=await this.props.youtube.subscribeDelete(issubscribe,this.state.auth);
       if(status<400){
         await this.LoadSubscribe();
         this.setState({View:<View 
@@ -221,58 +104,14 @@ class App extends Component {
 
   handleAuth=()=>{
     if(this.state.auth===null){
-      this.oauthSignIn();
+      this.props.oauth.oauthSignIn();
     }
     else{
-      this.oauthSignOut();
+      this.props.oauth.oauthSignOut(this.state.auth);
+      localStorage.removeItem("oauth2-params");
+      this.setState({auth:null});
+      window.location.assign("https://deokwonpark.github.io/YouTube_Colne/");
     }
-  }
-
-  oauthSignIn=()=> {
-    const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
-  
-    const form = document.createElement('form');
-    form.setAttribute('method', 'GET');
-    form.setAttribute('action', oauth2Endpoint);
-    const scope="https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtubepartner"
-
-    const params = {'client_id': this.API_CLIENT_ID,
-                  'redirect_uri': 'https://deokwonpark.github.io/YouTube_Colne/',
-                  'response_type': 'token',
-                  'scope': scope,
-                  'include_granted_scopes': 'true',
-                  'state': 'pass-through value'};
-  
-    for (let p in params) {
-      const input = document.createElement('input');
-      input.setAttribute('type', 'hidden');
-      input.setAttribute('name', p);
-      input.setAttribute('value', params[p]);
-      form.appendChild(input);
-    }
-  
-    document.body.appendChild(form);
-    form.submit();
-  }
-
-  oauthSignOut=()=>{
-    const revokeTokenEndpoint = 'https://oauth2.googleapis.com/revoke';
-
-    const form = document.createElement('form');
-    form.setAttribute('method', 'post');
-    form.setAttribute('action', revokeTokenEndpoint);
-
-    const tokenField = document.createElement('input');
-    tokenField.setAttribute('type', 'hidden');
-    tokenField.setAttribute('name', 'token');
-    tokenField.setAttribute('value', this.state.auth);
-    form.appendChild(tokenField);
-
-    document.body.appendChild(form);
-    form.submit();
-    localStorage.removeItem("oauth2-params");
-    this.setState({auth:null});
-    window.location.assign("https://deokwonpark.github.io/YouTube_Colne/");
   }
 
   dftRef=React.createRef();
@@ -374,7 +213,14 @@ class App extends Component {
   }                                
 
   handleSearch=(text)=>{
-    this.SearchVideoItem(text);                           
+    if(this.dftRef.current.style.display==="none"){
+      this.handleMainView();
+    }
+    this.props.youtube.SearchVideoItem(text)
+    .then((values)=>{
+      const videos=[...values];
+      this.setState({videos});
+    });                           
   }
 
   handleToggle=()=>{
@@ -383,7 +229,9 @@ class App extends Component {
   }
 
   async componentDidMount(){
-    this.LoadVideoItems();
+    this.props.youtube.LoadVideoItems()
+    .then((values)=>this.setState({videos:values}));
+
     await this.parseQueryString();
     this.LoadSubscribe();
   }
@@ -402,7 +250,7 @@ class App extends Component {
         onCategory={this.handleSearch} 
         toggle={this.state.toggle} 
         auth={this.state.auth}
-        onAuth={this.oauthSignIn}
+        onAuth={this.props.oauth.oauthSignIn}
         subscribe={this.state.subscribe}
         onSubscribe={this.handleSucribeClick}
         onLike={this.handleLikeVideo}
