@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/YouTube_Colne/static/css/main.dd7fd624.chunk.css",
-    "main.js": "/YouTube_Colne/static/js/main.f798b80b.chunk.js",
-    "main.js.map": "/YouTube_Colne/static/js/main.f798b80b.chunk.js.map",
+    "main.js": "/YouTube_Colne/static/js/main.74abafb5.chunk.js",
+    "main.js.map": "/YouTube_Colne/static/js/main.74abafb5.chunk.js.map",
     "runtime-main.js": "/YouTube_Colne/static/js/runtime-main.748943ba.js",
     "runtime-main.js.map": "/YouTube_Colne/static/js/runtime-main.748943ba.js.map",
     "static/js/2.c3675dab.chunk.js": "/YouTube_Colne/static/js/2.c3675dab.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.748943ba.js",
     "static/js/2.c3675dab.chunk.js",
     "static/css/main.dd7fd624.chunk.css",
-    "static/js/main.f798b80b.chunk.js"
+    "static/js/main.74abafb5.chunk.js"
   ]
 }
