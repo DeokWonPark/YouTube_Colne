@@ -19,7 +19,8 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 5. [Reference](#Reference)
 
 
-
+<br/>
+<br/>
 
 
 ### Purpose of the project
@@ -29,7 +30,8 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 - Google OAuth2.0인증 방식 학습 
 
 
-
+<br/>
+<br/>
 
 
 ### Development stack
@@ -37,7 +39,8 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2PD2yAr4Tt4TG62BatFqSltJmYLO1_DFUqA&usqp=CAU" width="50px" />              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTAi6Ah3SwQOrGOrMCj_yF6SgNR_wgM8rJlw&usqp=CAU" width="43px" />              <img src="https://icon-icons.com/icons2/2108/PNG/32/javascript_icon_130900.png" width="50px" />              <img src="https://miro.medium.com/max/500/1*cPh7ujRIfcHAy4kW2ADGOw.png" width="50px" />      
 
 
-
+<br/>
+<br/>
 
 
 ### About The Project
@@ -106,7 +109,8 @@ YouTube Data API, Google OAuth2.0 인증을 통한 기본적인 Video 서비스 
 
 
 
-
+<br/>
+<br/>
 
 
 
